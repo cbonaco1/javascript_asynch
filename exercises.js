@@ -131,10 +131,149 @@ function innerBubbleSortLoop(arr, i, swaps, untilsortedloop) {
 // });
 
 
-// askIfGreaterThan(1, 2, function(theTruth) {
-//   console.log("The truth is " + theTruth);
-//   reader.close();
-// });
+
+
+// .APPLY
+// in the call to someMethod, `this` is cat
+// 2 arguments: cat and an array of arguments
+// someMethod.apply(cat, [something, somethingElse])
+
+// .CALL
+// in the call to someMethod, `this` is cat
+// cat + an infinite amount of other arguments (like Ruby *)
+// someMethod.call(cat, something, somethingElse)
+
+Function.prototype.myBind = function (context, args) {
+  // context = cat
+  // fn is bark or dog or dog.bark
+
+  // .bind should return a function
+  // the 'this' of that functions should be context
+  // it can have a sequence of args after
+
+  fn = this;
+  var func = function(){
+    fn.apply(context, [args]);
+  };
+
+  return func;
+};
+
+
+
+// code to test myBind
+// function Lamp() {
+//    this.name = "a lamp";
+// }
+//
+// var turnOn = function() {
+//    console.log("Turning on " + this.name);
+// };
+//
+// var lamp = new Lamp();
+//
+// turnOn(); // should not work the way we want it to
+//
+// var boundTurnOn = turnOn.bind(lamp);
+// var myBoundTurnOn = turnOn.myBind(lamp);
+//
+// boundTurnOn(); // should say "Turning on a lamp"
+// myBoundTurnOn(); // should say "Turning on a lamp"
+
+
+
+// TOWERS OF HANOI
+
+// // Keep three arrays, which represents the piles of discs. Pick a representation of the
+// discs to store in the arrays; maybe just a number representing their size.
+// Don't worry too much about making the user interface pretty.
+// //
+// // In a loop, prompt the user (using gets) and ask what pile to select a disc from,
+// and where to put it.
+// //
+// // After each move, check to see if they have succeeded in moving all the discs,
+// to the final pile. If so, they win!
+// //
+
+// class HanoiGame
+//   def initialize
+//     @towers = [[], [], []]
+//   end
+//
+//   def prompt_move
+//   end
+// end
+
+// this is how you define what is like @instance_variables
+function HanoiGame(numDiscs) {
+  this.towers = [[], [], []];
+
+  for (var i = 0; i < numDiscs; i++) {
+    this.towers[0].unshift(i + 1);
+  }
+}
+
+// this is how you defined what is like instance_methods
+HanoiGame.prototype.promptMove = function (callback) {
+  game = this;
+  console.log(game.towers);
+
+  reader.question("Where from?", function (from_t) {
+    reader.question("Where to?", function (to_t) {
+      console.log("game is " + game);
+      debugger
+      game.callback(from_t, to_t);
+    });
+  });
+};
+
+HanoiGame.prototype.isValidMove = function (from_tower, to_tower) {
+  //if from_town is emtpy
+  if (this.towers[from_tower].length === 0) {
+    console.log("not valid1");
+    return false;
+  }
+  //if last disc in to_tower < disc in from_tower
+  else{
+    var discToMove = this.towers[from_tower][this.towers[from_tower].length - 1];
+    var destDisc = this.towers[to_tower][this.towers[to_tower].length - 1];
+    if (discToMove > destDisc) {
+      console.log("not valid2");
+      return false;
+    }
+    else {
+      console.log("yoohoo");
+      return true;
+    }
+  }
+  // return valid;
+};
+
+game = new HanoiGame(4);
+
+game.promptMove(game.isValidMove);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
