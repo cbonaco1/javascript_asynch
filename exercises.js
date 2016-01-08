@@ -1,3 +1,4 @@
+// CLOCK
 function Clock() {
   // assume that the callback we pass will be called function style
   // and therefore 'this' will be window. therefore you need to pass 'this' with
@@ -30,4 +31,53 @@ Clock.prototype._tick = function () {
   this.printTime();
 };
 
-var clock = new Clock();
+//var clock = new Clock();
+
+
+
+// ADD TWO NUMBERS
+var readline = require('readline');
+
+var reader = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+function addNumbers(sum, numsLeft, completionCallback){
+  if (numsLeft > 0) {
+    reader.question("Enter a number: ", function(num){
+      var ans = parseInt(num);
+      sum += ans;
+      console.log("Sum is now: " + sum);
+      addNumbers(sum, (numsLeft - 1), completionCallback);
+    });
+    console.log("Not waiting for number");
+  }
+  else {
+    completionCallback(sum);
+  }
+}
+
+addNumbers(0, 3, function(answer){
+  console.log("Our answer is: " + answer);
+  reader.close();
+});
+
+
+
+// ABSURD BUBBLE SORT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
