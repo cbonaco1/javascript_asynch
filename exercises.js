@@ -46,8 +46,8 @@ var reader = readline.createInterface({
 function addNumbers(sum, numsLeft, completionCallback){
   if (numsLeft > 0) {
     reader.question("Enter a number: ", function(num){
-      var ans = parseInt(num);
-      sum += ans;
+      var answer = parseInt(num);
+      sum += answer;
       console.log("Sum is now: " + sum);
       addNumbers(sum, (numsLeft - 1), completionCallback);
     });
@@ -58,17 +58,83 @@ function addNumbers(sum, numsLeft, completionCallback){
   }
 }
 
-addNumbers(0, 3, function(answer){
-  console.log("Our answer is: " + answer);
-  reader.close();
-});
+// addNumbers(0, 3, function(answer){
+//   console.log("Our answer is: " + answer);
+//   reader.close();
+// });
 
 
 
 // ABSURD BUBBLE SORT
+function absurdBubbleSort(arr, sortCompletionCallback) {
+  // global loop that keeps running until sorted.
+  function untilsortedloop(didSwap) {
+    if (didSwap === false) {
+      // executes the callback which prints out the sorted array
+      sortCompletionCallback(arr);
+    }
+    else {
+      // executes a callback which decides swaps or not
+      innerBubbleSortLoop(arr, 0, false, untilsortedloop);
+    }
+  }
+  // runs the while true loop
+  untilsortedloop(true);
+}
+
+function askIfGreaterThan(el1, el2, callback) {
+  // asks for user input
+  reader.question("Is " + el1 + " greater than " + el2 + "?",
+    function (answer) {
+      if (answer === "yes") {
+        // executes a callback which returns the result
+        callback(true);
+      } else if (answer === "no") {
+        // same
+        callback(false);
+      }
+  });
+}
+
+function innerBubbleSortLoop(arr, i, swaps, untilsortedloop) {
+    if ( i < arr.length - 1) {
+      // askIfGreaterThan takes a call back which is this anon function
+      // its argument (isGreaterThan) is the result (true/false) of when it's executed
+      askIfGreaterThan(arr[i], arr[i + 1], function (isGreaterThan){
+        if (isGreaterThan === true ) {
+          // makes a swap
+          console.log("Doing a swap");
+          var next = arr[i];
+          arr[i] = arr[i + 1];
+          arr[i + 1] = next;
+          console.log(arr);
+
+          // keeps calling the inner loop
+          // changes swaps to true so that untilsortedloop executes line 76
+          innerBubbleSortLoop(arr, i + 1, true, untilsortedloop);
+        } else {
+          // keeps calling the inner loop but hasn't reached end of array yet
+          innerBubbleSortLoop(arr, i + 1, swaps, untilsortedloop);
+        }
+      });
+    } else if (i === (arr.length - 1)) {
+      // calls until untilsortedloop with a swaps that can either be true or false
+      // and then untilsortedloop figures out if it needs to come back here or if
+      // it's done.
+      untilsortedloop(swaps);
+    }
+}
+
+// absurdBubbleSort([3, 4, 2, 1], function(sortedArray) {
+//   console.log(sortedArray);
+//   reader.close();
+// });
 
 
-
+// askIfGreaterThan(1, 2, function(theTruth) {
+//   console.log("The truth is " + theTruth);
+//   reader.close();
+// });
 
 
 
